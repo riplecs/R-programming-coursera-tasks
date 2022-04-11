@@ -1,12 +1,11 @@
 
-PATH <- 'C:/Users/dasha/Desktop/coursera/specdata/'
 
 #pollutants - nitrate or sulfate 
 
 pollutantmean <- function(directory, pollutant, id = 1:332) {
    summ <- c()
    for (i in id){
-      f <- paste(directory, paste(strrep('0', 3 - nchar(i)), i, sep = ''), sep = '')
+      f <- paste(strrep('0', 3 - nchar(i)), i, sep = '')
       file <- read.csv(paste(f, '.csv', sep = ''))
       data <- file[[pollutant]][!is.na(file[[pollutant]])]
       summ <- c(summ, data)
@@ -17,7 +16,7 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
 complete <- function(directory, id = 1:332) {
    nobs <- c()
    for(i in id){
-      f <- paste(directory, paste(strrep('0', 3 - nchar(i)), i, sep = ''), sep = '')
+      f <- paste(strrep('0', 3 - nchar(i)), i, sep = '')
       file <- read.csv(paste(f, '.csv', sep = ''))
       nobs <- c(nobs, nrow(na.omit(file)))
    }
