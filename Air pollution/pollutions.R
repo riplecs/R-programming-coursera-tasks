@@ -2,6 +2,8 @@
 
 #pollutants - nitrate or sulfate 
 
+
+## calculates the mean of a pollutant (sulfate or nitrate) across a specified list of monitors. 
 pollutantmean <- function(directory, pollutant, id = 1:332) {
    summ <- c()
    for (i in id){
@@ -13,6 +15,7 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
    mean(summ)
 }
 
+##  reads a directory full of files and reports the number of completely observed cases in each data file
 complete <- function(directory, id = 1:332) {
    nobs <- c()
    for(i in id){
@@ -23,6 +26,8 @@ complete <- function(directory, id = 1:332) {
    data.frame(id = id, nobs = nobs)
 }
 
+##  takes a directory of data files and a threshold for complete cases and calculates the correlation between 
+## sulfate and nitrate for monitor locations where the number of completely observed cases (on all variables) is greater than the threshold. 
 corr <- function(directory, threshold = 0) {
    cors <- c()
    for (file in list.files(directory)){
