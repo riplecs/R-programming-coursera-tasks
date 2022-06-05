@@ -4,14 +4,15 @@ library(lubridate)
 Sys.setlocale('LC_TIME', 'English')
 
 unzip('exdata_data_household_power_consumption.zip', exdir = getwd())
-data <- read.table('household_power_consumption.txt', sep = ';', head = TRUE)
+data <- read.table('household_power_consumption.txt', sep = ';', 
+                   head = TRUE, na.strings = '?')
+data <- na.omit(data)
 
 data$Date <- as.Date(data$Date, format = '%d/%m/%Y')
 data <- subset(data, between(data$Date, 
                              as.Date('2007-02-01', format = '%Y-%m-%d'), 
                              as.Date('2007-02-02', format = '%Y-%m-%d')))
 data$Global_active_power <- as.numeric(data$Global_active_power)
-data <- data[!is.na(data$Global_active_power),]
 
 dates <- as_datetime(with(data, paste(Date, Time)), format = '%Y-%m-%d %H:%M')
 
