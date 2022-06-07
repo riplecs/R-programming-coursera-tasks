@@ -23,14 +23,14 @@ Source Classification Code Table (Source_Classification_Code.rds): This table pr
 
 ### Questions
 
-- Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? Using the base plotting system, make a plot showing the total PM2.5 emission from all sources for each of the years 1999, 2002, 2005, and 2008.
+- Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? Using the base plotting system, make a plot showing the total PM2.5 emission from all sources for each of the years 1999, 2002, 2005, and 2008 (see plot1.R, plot1.png for answer).
 
-- Have total emissions from PM2.5 decreased in the Baltimore City, Maryland (fips == "24510") from 1999 to 2008? Use the base plotting system to make a plot answering this question.
+- Have total emissions from PM2.5 decreased in the Baltimore City, Maryland (fips == "24510") from 1999 to 2008? Use the base plotting system to make a plot answering this question (see plot2.R, plot2.png for answer).
 
-- Of the four types of sources indicated by the type (point, nonpoint, onroad, nonroad) variable, which of these four sources have seen decreases in emissions from 1999–2008 for Baltimore City? Which have seen increases in emissions from 1999–2008? Use the ggplot2 plotting system to make a plot answer this question.
+- Of the four types of sources indicated by the type (point, nonpoint, onroad, nonroad) variable, which of these four sources have seen decreases in emissions from 1999–2008 for Baltimore City? Which have seen increases in emissions from 1999–2008? Use the ggplot2 plotting system to make a plot answer this question (see plot3.R, plot3.png for answer).
 
-- Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
+- Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008 (see plot4.R, plot4.png for answer)? 
 
-- How have emissions from motor vehicle sources changed from 1999–2008 in Baltimore City?
+- How have emissions from motor vehicle sources changed from 1999–2008 in Baltimore City (see plot5.R, plot5.png for answer)?
 
-- Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County, California (fips == "06037"). Which city has seen greater changes over time in motor vehicle emissions?
+- Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in Los Angeles County, California (fips == "06037"). Which city has seen greater changes over time in motor vehicle emissions (see plot6.R, plot6.png for answer)?
