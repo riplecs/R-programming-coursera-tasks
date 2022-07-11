@@ -1,0 +1,95 @@
+---
+title: "Exploring the NOAA Storm Database and answering some basic questions about severe weather events"
+output: html_document
+date: '2022-07-11'
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+## Synopsis
+
+#### Storms and other severe weather events can cause both public health and economic problems for communities and municipalities. Many severe events can result in fatalities, injuries, and property damage, and preventing such outcomes to the extent possible is a key concern.
+
+#### This project involves exploring the U.S. National Oceanic and Atmospheric Administration's (NOAA) storm database. This database tracks characteristics of major storms and weather events in the United States, including when and where they occur, as well as estimates of any fatalities, injuries, and property damage.
+
+#### My data analysis address the following questions:
+
+#### - Across the United States, which types of events  are most harmful with respect to population health?
+    
+#### - Across the United States, which types of events have the greatest economic consequences?
+
+## Data processing
+
+### Loading required packages 
+
+```{r}
+library(plyr)
+library(dplyr)
+library(ggplot2)
+library(data.table)
+library(sjmisc)
+```
+
+### Downloading data 
+
+```{r, cache = TRUE}
+temp <- tempfile()
+download.file('https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2', temp)
+data <- read.csv(temp)
+unlink(temp)
+summary(data[c(8, 23, 24, 25, 26)])
+```
+
+### Preprocessing data
+#### Lets look on 20 random events types.
+```{r}
+set.seed(123)
+sample(unique(data$EVTYPE), 20)
+```
+
+#### We can see that there are many types, but some of them are not type at all, so I will remove it. I will also convert types to lowercase for my convenience. 
+
+```{r}
+data <- subset(data, !grepl('[Ss]ummary', data$EVTYPE))
+data$EVTYPE <- tolower(data$EVTYPE)
+```
+
+#### As a measure of human health, we will have a total number of fatalities and injuries per every type of event throughout the whole time.
+
+```{r}
+data <- group_by(data, data$EVTYPE)
+summ <- summarise(data, helth = sum(FATALITIES + INJURIES))
+```
+
+#### Now I am going to find total damage in $ per every type of event throughout the whole time.
+
+```{r}
+muls <- c('K' = 1000, 'M'= 10^6, 'B'= 10^9)
+data$DMG <- data$PROPDMG*muls[data$PROPDMGEXP]
+summ_dam <- summarise(data, damage = sum(DMG, na.rm = TRUE))
+```
+
+## Results
+
+#### Now let's look to TOP 20 the most dangerous for people type of events. 
+
+```{r}
+ggplot(summ[order(summ$helth, decreasing = TRUE),][1:20,], aes( helth, `data$EVTYPE`)) + 
+  geom_bar(stat = "identity") + labs(x = 'Total number of fatalities and injuries', y = 'Event')
+```
+
+#### As we can see, the absolute winner is a tornado. It has such a huge indicator, so it is problematic to see in details distribution of other types humans damage. So let's look at it now.
+
+```{r}
+ggplot(summ[order(summ$helth, decreasing = TRUE),][2:20,], aes( helth, `data$EVTYPE`)) + 
+  geom_bar(stat = "identity") + labs(x = 'Total number of fatalities and injuries', y = 'Event')
+```
+
+#### Now let's look to TOP 20 the most unprofitable type of events. 
+
+```{r}
+ggplot(summ_dam[order(summ_dam$damage, decreasing = TRUE),][1:20,], aes( damage, `data$EVTYPE`)) + 
+  geom_bar(stat = "identity") + labs(x = 'Total damage in $', y = 'Event')
+```
+
+#### As we can see floods cause twice as much damage as the most dangerous tornado.
